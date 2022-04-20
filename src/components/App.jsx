@@ -17,7 +17,6 @@ const App = () => {
   
   useEffect(() => {
     console.log(value)
-    fetchFunc()
   }, [value]);
   
 
