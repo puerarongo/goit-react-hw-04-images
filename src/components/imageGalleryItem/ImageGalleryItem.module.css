@@ -1,0 +1,24 @@
+.gallery__card {
+    margin-bottom: 30px;
+    width: calc(25% - 15px);
+    border-radius: 5px;
+}
+
+.gallery__card:hover {
+    transform: scale(1.05);
+}
+
+.gallery__card:not(:nth-child(4n)) {
+    margin-right: 20px;
+}
+
+
+.gallery__img {
+    display: block;
+    width: 100%;
+    height: 240px;
+    border-radius: 5px;
+
+    cursor: pointer;
+}
+
