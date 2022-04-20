@@ -16,7 +16,7 @@ const App = () => {
   const [modalValue, setModalValue] = useState([]);
   
   useEffect(() => {
-    console.log(response)
+    fetchFunc()
   });
   
 
