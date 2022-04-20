@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Searchbar from "./searchbar/Searchbar";
 import ImageGallery from "./imageGallery/ImageGallery";
 import ImageGalleryItem from "./imageGalleryItem/ImageGalleryItem";
@@ -15,13 +15,13 @@ const App = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalValue, setModalValue] = useState([]);
   
-  //useEffect(() => {
-  //  setResponse([]);
-  //  console.log(response)
+ // useEffect(() => {
+ //   setResponse([]);
+ //   console.log(response)
 //
-  //  fetchFunc();
-  //}, [value]);
-  //
+ //   fetchFunc();
+ // }, [value]);
+ // 
 
   // ? Response Func
 
