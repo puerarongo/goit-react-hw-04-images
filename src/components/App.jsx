@@ -23,7 +23,6 @@ const App = () => {
       return
     }
     setResponse([]);
-    console.log(response)
 
     fetchFunc();
   }, [value]);
