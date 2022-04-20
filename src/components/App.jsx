@@ -15,12 +15,13 @@ const App = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalValue, setModalValue] = useState([]);
   
-  useEffect(() => {
-    setResponse([]);
-
-    fetchFunc();
-  }, [value]);
-  
+  //useEffect(() => {
+  //  setResponse([]);
+  //  console.log(response)
+//
+  //  fetchFunc();
+  //}, [value]);
+  //
 
   // ? Response Func
 
