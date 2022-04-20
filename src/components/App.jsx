@@ -16,11 +16,14 @@ const App = () => {
   const [modalValue, setModalValue] = useState([]);
   
   useEffect(() => {
-    fetchFunc()
+    arrg()
   }, [value]);
   
 
   // ? Response Func
+  const arrg = () => {
+    console.log("jgwh")
+  }
 
 
   const fetchFunc = async () => {
