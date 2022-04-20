@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Searchbar from "./searchbar/Searchbar";
 import ImageGallery from "./imageGallery/ImageGallery";
 import ImageGalleryItem from "./imageGalleryItem/ImageGalleryItem";
@@ -7,48 +7,36 @@ import Button from "./button/Button";
 import Modal from "./modal/Modal";
 
 
-class App extends Component { 
-  state = {
-    response: [],
-    value: null,
-    page: 0,
-    error: null,
-    status: "idle",
-    showModal: false,
-    modalValue: []
-  };
+const App = () => { 
+  const [value, setValue] = useState(null);
+  const [page, setPage] = useState(0);
+  const [response, setResponse] = useState([]);
+  const [status, setStatus] = useState("idle");
+  const [showModal, setShowModal] = useState(false);
+  const [modalValue, setModalValue] = useState([]);
 
-  // ? func
-
-  createArr = (value) => {
-    const newArr = value.hits.map(elem => {
-      return { id: elem.id, small: elem.webformatURL, big: elem.largeImageURL }
-    })
-
-    this.setState(prevState => {
-      return {
-        response: [...prevState.response, ...newArr],
-        status: "resolved"
-      }
-    })
-  };
-
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.value !== this.state.value) {
-      this.setState({response: []});
-      this.fetchFunc();
-    }
-    else {
+  const firstRender = useRef(true);
+  
+  useEffect(() => {
+    if (firstRender.current) {
+      firstRender.current = false
       return
     }
-  };
+    setResponse([]);
+    console.log(response)
 
-  fetchFunc = async () => {
-    const { value, page } = this.state;
+    fetchFunc();
+  }, [value]);
+  
+
+  // ? Response Func
+
+
+  const fetchFunc = async () => {
     const BASE_CASE = "https://pixabay.com/api/?";
     const API_KEY = "26654648-b583e9a090522ce0710c170d0";
 
-    this.setState({status: "pending"});
+    setStatus("pending");
 
     try {
       const requestImg = await fetch(`${BASE_CASE}key=${API_KEY}&q=${value}&page=${page}
@@ -59,66 +47,71 @@ class App extends Component {
       }
 
       const responseImg = await requestImg.json();
-      this.createArr(responseImg);
+      createArr(responseImg);
     }
     catch (error) {
       console.log(error)
-      this.setState({
-        error: error,
-        status: "rejected"
-      })
+      setStatus("rejected");
     }
     finally {
-      this.setState(prevS => { return { page: prevS.page + 1 } })
+      setPage(page + 1)
     }
   }  
+
+  const createArr = (value) => {
+    const newArr = value.hits.map(elem => {
+      return { id: elem.id, small: elem.webformatURL, big: elem.largeImageURL }
+    })
+
+    setResponse([...response, ...newArr]);
+    setStatus("resolved");
+  };
   
 
-  searchImg = (value) => {
+  const searchImg = (text) => {
+    if (value !== text) {
+      setPage(1)
+    }
+    setValue(text);
     
-    this.setState(prevState => {
-      if (prevState.value !== value) {
-        return {
-          page: 1,
-          value: value
-        }
-      }
-      return { value: value }
-    });
+  //  this.setState(prevState => {
+  //    if (prevState.value !== text) {
+  //      return {
+  //        page: 1,
+  //        value: text
+  //      }
+  //    }
+  //    return { value: text }
+  //  });
   };
 
-  modalHandler = (id) => {
-    const imgId = this.state.response.find(elem => elem.id === id)
-    this.setState({ modalValue: imgId })
-    this.modalOpen()
+  // ? Modal Func
+
+  const modalHandler = id => {
+    const imgId = response.find(elem => elem.id === id)
+    setModalValue(imgId);
+    modalOpen()
   }
 
-  modalOpen = () => {
-    this.setState({ showModal: true })
+  const modalOpen = () => {
+    setShowModal(true)
   };
 
-  modalClose = () => {
-    this.setState({ showModal: false })
+  const modalClose = () => {
+    setShowModal(false)
   };
-
-
-
-
 
 
   // ? func
-  render() {
-    const { response, status, showModal, modalValue } = this.state;
-
-    return (
+  return (
       <div>
         {showModal && (
-          <Modal value={modalValue} funcClose={this.modalClose}/>
+          <Modal value={modalValue} funcClose={modalClose}/>
         )}
-        <Searchbar submit={this.searchImg} />
+        <Searchbar submit={searchImg} />
         
         <ImageGallery>
-          <ImageGalleryItem response={response} modal={this.modalHandler} />
+          <ImageGalleryItem response={response} modal={modalHandler} />
         </ImageGallery>
 
         {status === "pending" && (
@@ -126,11 +119,10 @@ class App extends Component {
         )}
 
         {response.length > 0 && (
-          <Button pressMore={this.fetchFunc}/>
+          <Button pressMore={fetchFunc}/>
         )}
       </div>
     )
-  };
 };
 
 export default App;

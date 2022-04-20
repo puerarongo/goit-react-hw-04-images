@@ -1,40 +1,30 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import styles from "./Searchbar.module.css";
 
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
-class Searchbar extends Component {
-    state = {
-        text: "",
+const Searchbar = ({submit}) => {
+    const [text, setText] = useState("");
+
+    const inputHandler = e => {
+        setText(e.currentTarget.value.toLowerCase())
     };
 
 
-    reset = () => { this.setState({ text: "" }) };
-
-
-    inputHandler = (e) => {
-        const { value } = e.currentTarget
-        this.setState({ text: value.toLowerCase() });
-    };
-
-
-    submitHandler = (e) => {
+    const submitHandler = (e) => {
         e.preventDefault();
-        if (this.state.text.trim() === "") {
+        if (text.trim() === "") {
             return Notify.warning("Please, enter the word into the search engine");
         }
 
-        this.props.submit(this.state.text);
-        this.reset();
+        submit(text);
+        setText("");
     };
 
 
-    render() {
-        const { text } = this.state;
-
-        return (
+    return (
         <header className={styles.header}>
-            <form className={styles.form} onSubmit={this.submitHandler}>
+            <form className={styles.form} onSubmit={submitHandler}>
                 <button type="submit" className={styles.button}>
                     <span className="button-label">Search</span>
                 </button>
@@ -45,12 +35,11 @@ class Searchbar extends Component {
                     autoFocus
                     placeholder="Search images and photos"
                     value={text}
-                    onChange={this.inputHandler}
+                    onChange={inputHandler}
                 />
             </form>
         </header>
-        );
-    };
+    );
 };
 
 export default Searchbar;
