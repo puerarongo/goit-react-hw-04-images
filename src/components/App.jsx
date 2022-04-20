@@ -16,7 +16,7 @@ const App = () => {
   const [modalValue, setModalValue] = useState([]);
   
   useEffect(() => {
-    setResponse([])
+    fetchFunc()
   }, [value]);
   
 
@@ -64,16 +64,6 @@ const App = () => {
       setPage(1)
     }
     setValue(text);
-    
-  //  this.setState(prevState => {
-  //    if (prevState.value !== text) {
-  //      return {
-  //        page: 1,
-  //        value: text
-  //      }
-  //    }
-  //    return { value: text }
-  //  });
   };
 
   // ? Modal Func
