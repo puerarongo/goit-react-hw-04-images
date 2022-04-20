@@ -23,8 +23,6 @@ const App = () => {
   
 
   // ? Response Func
-
-
   const requestHandler = () => {
     setStatus("pending");
 
@@ -33,7 +31,6 @@ const App = () => {
       setStatus("rejected")
     })
       .finally(() => setPage(page + 1))
-    //console.log(pictures)
   }  
 
   const createArr = (value) => {
@@ -53,8 +50,8 @@ const App = () => {
     setValue(text);
   };
 
-  // ? Modal Func
 
+  // ? Modal Func
   const modalHandler = id => {
     const imgId = response.find(elem => elem.id === id)
     setModalValue(imgId);
@@ -87,7 +84,7 @@ const App = () => {
         )}
 
         {response.length > 0 && (
-          <Button pressMore={fetchFunc}/>
+          <Button pressMore={requestHandler}/>
         )}
       </div>
     )
