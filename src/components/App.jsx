@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Searchbar from "./searchbar/Searchbar";
 import ImageGallery from "./imageGallery/ImageGallery";
 import ImageGalleryItem from "./imageGalleryItem/ImageGalleryItem";
@@ -14,14 +14,8 @@ const App = () => {
   const [status, setStatus] = useState("idle");
   const [showModal, setShowModal] = useState(false);
   const [modalValue, setModalValue] = useState([]);
-
-  const firstRender = useRef(true);
   
   useEffect(() => {
-    if (firstRender.current) {
-      firstRender.current = false
-      return
-    }
     setResponse([]);
 
     fetchFunc();
