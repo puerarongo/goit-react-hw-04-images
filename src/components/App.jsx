@@ -6,6 +6,8 @@ import Loader from "./loader/Loader";
 import Button from "./button/Button";
 import Modal from "./modal/Modal";
 
+import fetchFunc from "funcFiles/fetchFunc";
+
 
 const App = () => { 
   const [value, setValue] = useState(null);
@@ -16,40 +18,22 @@ const App = () => {
   const [modalValue, setModalValue] = useState([]);
   
   useEffect(() => {
-    arrg()
+    requestHandler()
   }, [value]);
   
 
   // ? Response Func
-  const arrg = () => {
-    console.log("jgwh")
-  }
 
 
-  const fetchFunc = async () => {
-    const BASE_CASE = "https://pixabay.com/api/?";
-    const API_KEY = "26654648-b583e9a090522ce0710c170d0";
-
+  const requestHandler = () => {
     setStatus("pending");
 
-    try {
-      const requestImg = await fetch(`${BASE_CASE}key=${API_KEY}&q=${value}&page=${page}
-      &image_type=photo&orientation=horizontal&per_page=12`);
-
-      if (!requestImg.ok) {
-        throw new Error("Error!!!")
-      }
-
-      const responseImg = await requestImg.json();
-      createArr(responseImg);
-    }
-    catch (error) {
+    fetchFunc(value, page).then(pictures => createArr(pictures)).catch(error => {
       console.log(error)
-      setStatus("rejected");
-    }
-    finally {
-      setPage(page + 1)
-    }
+      setStatus("rejected")
+    })
+      .finally(() => setPage(page + 1))
+    //console.log(pictures)
   }  
 
   const createArr = (value) => {
