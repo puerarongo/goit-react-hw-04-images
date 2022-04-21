@@ -30,7 +30,7 @@ const App = () => {
         const newArr = pictures.hits.map(elem => {
           return { id: elem.id, small: elem.webformatURL, big: elem.largeImageURL }
         })
-        setResponse([...response, ...newArr]);
+        setResponse(prevRes => [...prevRes, ...newArr]);
         setStatus("resolved");
       }).catch(error => {
       console.log(error)
