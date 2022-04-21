@@ -20,7 +20,6 @@ const App = () => {
 
   useEffect(() => {
     fetchFunc(value, page).then(pictures => {
-        console.log(pictures)
         const newArr = pictures.hits.map(elem => {
           return { id: elem.id, small: elem.webformatURL, big: elem.largeImageURL }
         })
@@ -30,8 +29,8 @@ const App = () => {
       console.log(error)
       setStatus("rejected")
     })
-  }, [value, page]);
-  
+  }, [value, page, response]);
+
 
   const searchImg = (text) => {
     console.log(text)
