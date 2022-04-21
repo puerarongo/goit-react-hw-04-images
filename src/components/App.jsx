@@ -10,7 +10,7 @@ import fetchFunc from "funcFiles/fetchFunc";
 
 
 const App = () => { 
-  const [value, setValue] = useState(undefined);
+  const [value, setValue] = useState("");
   const [page, setPage] = useState(0);
   const [response, setResponse] = useState([]);
   const [status, setStatus] = useState("idle");
@@ -19,6 +19,10 @@ const App = () => {
   const [modalValue, setModalValue] = useState([]);
 
   useEffect(() => {
+    if (!value) {
+      return
+    }
+
     fetchFunc(value, page).then(pictures => {
         const newArr = pictures.hits.map(elem => {
           return { id: elem.id, small: elem.webformatURL, big: elem.largeImageURL }
@@ -29,11 +33,10 @@ const App = () => {
       console.log(error)
       setStatus("rejected")
     })
-  }, [value, page, response]);
+  }, [value, page]);
 
 
   const searchImg = (text) => {
-    console.log(text)
     if (value !== text) {
       setPage(1)
       setValue(text)
@@ -42,7 +45,6 @@ const App = () => {
   };
 
   const loadMore = () => {
-    console.log(page)
     setPage(page + 1)
   };
 
