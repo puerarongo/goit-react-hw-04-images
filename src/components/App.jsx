@@ -11,7 +11,7 @@ import fetchFunc from "funcFiles/fetchFunc";
 
 const App = () => { 
   const [value, setValue] = useState("");
-  const [preV, setPreV] = useState(undefined) // ? for check
+  //const [preV, setPreV] = useState(undefined) // ? for check
   const [page, setPage] = useState(0);
   const [response, setResponse] = useState([]);
   const [status, setStatus] = useState("idle");
@@ -25,7 +25,7 @@ const App = () => {
       return
     }
 
-    if (value !== preV || page > 0) {
+    if (page > 0) {
       fetchFunc(value, page).then(pictures => {
         const newArr = pictures.hits.map(elem => {
           return { id: elem.id, small: elem.webformatURL, big: elem.largeImageURL }
@@ -36,7 +36,7 @@ const App = () => {
       console.log(error)
       setStatus("rejected")
       })
-      .finally(() => setPreV(value))
+      //.finally(() => setPreV(value))
     }
   }, [value, page]);
 
