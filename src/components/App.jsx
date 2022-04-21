@@ -11,7 +11,6 @@ import fetchFunc from "funcFiles/fetchFunc";
 
 const App = () => { 
   const [value, setValue] = useState("");
-  //const [preV, setPreV] = useState(undefined) // ? for check
   const [page, setPage] = useState(0);
   const [response, setResponse] = useState([]);
   const [status, setStatus] = useState("idle");
@@ -36,7 +35,6 @@ const App = () => {
       console.log(error)
       setStatus("rejected")
       })
-      //.finally(() => setPreV(value))
     }
   }, [value, page]);
 
