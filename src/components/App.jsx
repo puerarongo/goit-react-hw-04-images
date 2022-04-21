@@ -10,53 +10,49 @@ import fetchFunc from "funcFiles/fetchFunc";
 
 
 const App = () => { 
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState(undefined);
   const [page, setPage] = useState(0);
   const [response, setResponse] = useState([]);
   const [status, setStatus] = useState("idle");
+  
   const [showModal, setShowModal] = useState(false);
   const [modalValue, setModalValue] = useState([]);
-  
+
   useEffect(() => {
-    requestHandler()
-  }, [value]);
-  
-
-  // ? Response Func
-  const requestHandler = () => {
-    setStatus("pending");
-
-    fetchFunc(value, page).then(pictures => createArr(pictures)).catch(error => {
+    fetchFunc(value, page).then(pictures => {
+        console.log(pictures)
+        const newArr = pictures.hits.map(elem => {
+          return { id: elem.id, small: elem.webformatURL, big: elem.largeImageURL }
+        })
+        setResponse([...response, ...newArr]);
+        setStatus("resolved");
+      }).catch(error => {
       console.log(error)
       setStatus("rejected")
     })
-      .finally(() => setPage(page + 1))
-  }  
-
-  const createArr = (value) => {
-    const newArr = value.hits.map(elem => {
-      return { id: elem.id, small: elem.webformatURL, big: elem.largeImageURL }
-    })
-
-    setResponse([...response, ...newArr]);
-    setStatus("resolved");
-  };
+  }, [value, page]);
   
 
   const searchImg = (text) => {
+    console.log(text)
     if (value !== text) {
       setPage(1)
+      setValue(text)
+      setResponse([])
     }
-    setValue(text);
   };
 
+  const loadMore = () => {
+    console.log(page)
+    setPage(page + 1)
+  };
 
   // ? Modal Func
   const modalHandler = id => {
     const imgId = response.find(elem => elem.id === id)
     setModalValue(imgId);
     modalOpen()
-  }
+  };
 
   const modalOpen = () => {
     setShowModal(true)
@@ -84,7 +80,7 @@ const App = () => {
         )}
 
         {response.length > 0 && (
-          <Button pressMore={requestHandler}/>
+          <Button pressMore={loadMore}/>
         )}
       </div>
     )
