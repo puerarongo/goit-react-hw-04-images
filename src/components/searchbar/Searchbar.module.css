@@ -14,15 +14,17 @@
 .form__input {
     padding: 8px;
     width: 250px;
+    border: none;
     border-right: 0;
     border-radius: 0 5px 5px 0;
+    outline: none;
 }
 
 .button {
-    padding: 8px;
+    padding: 6px;
     color: #fff;
     background-color: brown;
-    border: 1px solid var(--button-border-color);
+    border: 1px solid rgba(0, 0, 0, 0.3);
     cursor: pointer;
     border-radius: 5px 0 0 5px;
 }

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { ReactComponent as SearchIcon } from "./search.svg";
 import styles from "./Searchbar.module.css";
 
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
@@ -26,7 +27,8 @@ const Searchbar = ({submit}) => {
         <header className={styles.header}>
             <form className={styles.form} onSubmit={submitHandler}>
                 <button type="submit" className={styles.button}>
-                    <span className="button-label">Search</span>
+                    
+                    <SearchIcon width="20"  height="15" fill="white"/>
                 </button>
                 <input
                     className={styles.form__input}
