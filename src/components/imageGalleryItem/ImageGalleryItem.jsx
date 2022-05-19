@@ -7,9 +7,9 @@ const ImageGalleryItem = ({response, modal}) => {
     
     return (
         <>
-            {response.map(elem => {
-                return <li className={styles.gallery__card} key={elem.id} onClick={() => modal(elem.id)}>
-                    <img className={styles.gallery__img} src={elem.small} alt={elem.id} />
+            {response.map(({id, small}) => {
+                return <li className={styles.gallery__card} key={id} onClick={() => modal(id)}>
+                    <img className={styles.gallery__img} src={small} alt={id} />
                 </li>
                 })
             }    
