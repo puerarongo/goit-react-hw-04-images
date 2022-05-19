@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from 'prop-types';
 import { ReactComponent as SearchIcon } from "./search.svg";
 import styles from "./Searchbar.module.css";
 
@@ -42,6 +43,10 @@ const Searchbar = ({submit}) => {
             </form>
         </header>
     );
+};
+
+Searchbar.propTypes = {
+    submit: PropTypes.func.isRequired
 };
 
 export default Searchbar;

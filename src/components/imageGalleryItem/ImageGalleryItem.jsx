@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import styles from "./ImageGalleryItem.module.css";
 
 
@@ -14,8 +15,16 @@ const ImageGalleryItem = ({response, modal}) => {
             }    
         </>
     );
+};
 
-
+ImageGalleryItem.propTypes = {
+    response: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            small: PropTypes.string.isRequired
+        })
+    ).isRequired,
+    modal: PropTypes.func.isRequired
 };
 
 export default ImageGalleryItem;
