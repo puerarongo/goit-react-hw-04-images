@@ -43,7 +43,11 @@ class Modal extends Component {
 }
 
 Modal.propTypes = {
-  value: PropTypes.object.isRequired,
+  value: PropTypes.shape({
+    big: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+    small: PropTypes.string.isRequired,
+  }),
   funcClose: PropTypes.func.isRequired,
 };
 

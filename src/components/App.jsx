@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Searchbar from './searchbar/Searchbar';
 import ImageGallery from './imageGallery/ImageGallery';
-import ImageGalleryItem from './imageGalleryItem/ImageGalleryItem';
 import Loader from './loader/Loader';
 import Button from './button/Button';
 import Modal from './modal/Modal';
 
 import fetchFunc from 'funcFiles/fetchFunc';
+import { Report } from 'notiflix/build/notiflix-report-aio';
 
 const App = () => {
   const [value, setValue] = useState('');
@@ -23,8 +23,15 @@ const App = () => {
     }
 
     if (page > 0) {
+      setStatus('pending');
+
       fetchFunc(value, page)
         .then(pictures => {
+          if (pictures.total === 0) {
+            Report.failure('Error', 'This images does not exist', 'OK');
+            return this.setState({ status: 'rejected' });
+          }
+
           const newArr = pictures.hits.map(elem => {
             return {
               id: elem.id,
@@ -32,8 +39,18 @@ const App = () => {
               big: elem.largeImageURL,
             };
           });
+
           setResponse(prevRes => [...prevRes, ...newArr]);
           setStatus('resolved');
+
+          if (pictures.hits.length < 12) {
+            Report.warning(
+              'Warning',
+              "We're sorry, but you've reached the end of search results.",
+              'OK'
+            );
+            this.setState({ status: 'rejected' });
+          }
         })
         .catch(error => {
           console.log(error);
@@ -76,13 +93,11 @@ const App = () => {
       {showModal && <Modal value={modalValue} funcClose={modalClose} />}
       <Searchbar submit={searchImg} />
 
-      <ImageGallery>
-        <ImageGalleryItem response={response} modal={modalHandler} />
-      </ImageGallery>
+      <ImageGallery response={response} modal={modalHandler} />
 
       {status === 'pending' && <Loader />}
 
-      {response.length > 0 && <Button pressMore={loadMore} />}
+      {status === 'resolved' && <Button pressMore={loadMore} />}
     </div>
   );
 };
