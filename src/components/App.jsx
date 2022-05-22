@@ -5,7 +5,7 @@ import Loader from './loader/Loader';
 import Button from './button/Button';
 import Modal from './modal/Modal';
 
-import fetchFunc from 'funcFiles/fetchFunc';
+import fetchFunc from 'services/fetchFunc';
 import { Report } from 'notiflix/build/notiflix-report-aio';
 
 const App = () => {
